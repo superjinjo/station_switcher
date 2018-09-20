@@ -80,28 +80,29 @@ void loop() {
 
     if(digitalRead(current->btnPin)) {
       current->Watch = true;
-      
-      Serial.print("Watching btn ");
-      Serial.print(i);
-      Serial.print(" Status: ");
-      Serial.println(current->Active);
     } else if(current->Watch) {
-      Serial.print("Unwatching btn ");
-      Serial.print(i);
-      Serial.print(" Status: ");
-      Serial.println(current->Active);
-      
       if(current->Active) {
         deactivateBtn(current);
-        Serial.println("DEACTIVATING");
       } else {
         activateBtn(current);
-        Serial.println("ACTIVATING");
       }
       current->Watch = false;
     }
   }
 
+  monitorActive();
+
+}
+
+void monitorActive() {
+  StationBtn *nextBtn;
+  
+  for(int i = 0; i < 3; i++) {
+    nextBtn = activeBtns[i];
+    if(nextBtn != NULL) {
+      (activeBtns[i])->MonitorHandRest();
+    }
+  }
 }
 
 void deactivateBtn(StationBtn *btn) {

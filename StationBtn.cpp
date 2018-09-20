@@ -9,6 +9,7 @@ StationBtn::StationBtn(int btnPin, int LEDPin, int hrPin, int chPin)
     
     pinMode(LEDPin, OUTPUT);
     pinMode(chPin, OUTPUT);
+    setCh(LOW);
 }
 
 bool StationBtn::Similar(StationBtn *other) {
@@ -23,9 +24,27 @@ void StationBtn::Activate() {
 void StationBtn::Deactivate() {
   setLED(LOW);
   Active = false;
+
+  //ensure channel is off
+  setCh(LOW);
+}
+
+void StationBtn::MonitorHandRest() {
+  if(Active && digitalRead(handrestPin)) {
+    Serial.print("handrest HIGH");
+    Serial.println(handrestPin);
+    
+    setCh(HIGH);
+  } else {
+    setCh(LOW);
+  }
 }
 
 void StationBtn::setLED(bool state) {
   digitalWrite(LEDPin, state);
+}
+
+void StationBtn::setCh(bool state) {
+  digitalWrite(chPin, !state);
 }
 

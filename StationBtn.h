@@ -2,7 +2,7 @@ class StationBtn {
   private:
     void setLED(bool state);
     //void readHandRest()
-    //void setCh()
+    void setCh(bool state);
 
   public:
     bool Active;
@@ -17,5 +17,6 @@ class StationBtn {
     bool Similar(StationBtn *other);
     void Activate();
     void Deactivate();
+    void MonitorHandRest();
 };
 
